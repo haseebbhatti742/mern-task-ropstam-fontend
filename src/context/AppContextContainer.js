@@ -17,23 +17,29 @@ function AppContextContainer({ children }) {
   //login function
   const login = (payload) => {
     localStorage.setItem("isLogin", true);
-    navigate("/");
+    navigate("/dashboard");
     // jwt
     //   .login(payload)
     //   .then((response) => {})
     //   .catch((error) => {});
   };
 
-  //login function
+  //logout function
   const logout = (payload) => {
     localStorage.setItem("isLogin", false);
-    navigate("/login");
+    navigate("/");
+  };
+
+  //add new category function
+  const addCategory = (payload) => {
+    alert("Category Added: " + payload);
   };
 
   const contextValues = {
     login,
     signup,
     logout,
+    addCategory,
   };
 
   return (

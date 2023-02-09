@@ -8,9 +8,9 @@ function Auth({ children }) {
   useEffect(() => {
     const isLogin = localStorage.getItem("isLogin");
     if (isLogin && (isLogin === true || isLogin === "true")) {
-      navigate("/");
+      navigate("/dashboard");
     } else {
-      pathname.includes("signup") ? navigate("/signup") : navigate("/login");
+      pathname.includes("signup") ? navigate("/signup") : navigate("/");
     }
     // eslint-disable-next-line
   }, []);

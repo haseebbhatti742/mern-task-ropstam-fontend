@@ -15,7 +15,9 @@ function SideBar() {
               key={route.key}
               to={route.path}
               className={
-                pathname === route.path ? "route-active" : "route-inactive"
+                pathname.includes(route.path)
+                  ? "route-active"
+                  : "route-inactive"
               }
             >
               {route.title}

@@ -60,7 +60,7 @@ function Signup() {
             </Button>
             <FormHelperText className="helper-text">
               Already have an account ?{" "}
-              <Link to="/login" className="span">
+              <Link to="/" className="span">
                 Login Here
               </Link>
             </FormHelperText>

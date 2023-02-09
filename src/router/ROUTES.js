@@ -3,11 +3,12 @@ import { lazy } from "react";
 const Login = lazy(() => import("../pages/login"));
 const Signup = lazy(() => import("../pages/signup"));
 const Dashboard = lazy(() => import("../pages/dashboard"));
+const Categories = lazy(() => import("../pages/categories"));
 
 const ROUTES = [
   {
     key: 1,
-    path: "/login",
+    path: "/",
     title: "Login",
     element: <Login />,
     isProtected: false,
@@ -21,7 +22,7 @@ const ROUTES = [
   },
   {
     key: 3,
-    path: "/",
+    path: "/dashboard",
     title: "Dashboard",
     element: <Dashboard />,
     isProtected: true,
@@ -39,7 +40,7 @@ const ROUTES = [
     key: 5,
     path: "/categories",
     title: "Categories",
-    element: <>Yet To Build</>,
+    element: <Categories />,
     isProtected: true,
     isSideBar: true,
   },
