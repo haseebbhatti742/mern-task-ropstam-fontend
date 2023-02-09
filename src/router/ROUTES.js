@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import AddCar from "../pages/add-car";
 
 const Login = lazy(() => import("../pages/login"));
 const Signup = lazy(() => import("../pages/signup"));
@@ -30,9 +31,9 @@ const ROUTES = [
   },
   {
     key: 4,
-    path: "/cars",
-    title: "Cars",
-    element: <>Yet To Build</>,
+    path: "/add-car",
+    title: "Add Car",
+    element: <AddCar/>,
     isProtected: true,
     isSideBar: true,
   },
