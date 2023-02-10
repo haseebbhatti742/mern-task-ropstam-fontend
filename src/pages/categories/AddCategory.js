@@ -8,7 +8,7 @@ function AddCategory() {
 
   return (
     <React.Fragment>
-      <Grid container pt={5}>
+      <Grid container pt={1}>
         <Grid item xs={3} sm={3} mr={3}>
           <TextField
             id="category"
@@ -24,6 +24,7 @@ function AddCategory() {
             variant="contained"
             color="success"
             sx={{ width: "100%", height: "100%" }}
+            disabled={category === ""}
             onClick={() => addCategory(category)}
           >
             Add

@@ -22,42 +22,6 @@ class JwtService {
       },
       (error) => Promise.reject(error)
     );
-
-    axios.interceptors.response.use(
-      (response) => response,
-      (error) => {
-        console.log(error);
-        const { config, response } = error;
-        const originalRequest = config;
-
-        // ** if (status === 401) {
-        if (response && response.status === 401) {
-          // ** refreshToken not needed on these urls
-          if (!this.isAlreadyFetchingAccessToken) {
-            this.isAlreadyFetchingAccessToken = true;
-            this.refreshToken()
-              .then((r) => {
-                this.isAlreadyFetchingAccessToken = false;
-                this.setToken(r.data.accessToken);
-                this.setRefreshToken(r.data.refreshToken);
-                this.onAccessTokenFetched(r.data.accessToken);
-              })
-              .catch((e) => {
-                this.isAlreadyFetchingAccessToken = false;
-              });
-          }
-          const retryOriginalRequest = new Promise((resolve) => {
-            this.addSubscriber((accessToken) => {
-              this.isAlreadyFetchingAccessToken = false;
-              originalRequest.headers.Authorization = `${this.jwtConfig.tokenType} ${accessToken}`;
-              resolve(axios(originalRequest));
-            });
-          });
-          return retryOriginalRequest;
-        }
-        return Promise.reject(error);
-      }
-    );
   }
 
   onAccessTokenFetched(accessToken) {
@@ -86,23 +50,55 @@ class JwtService {
     localStorage.setItem(this.jwtConfig.storageRefreshTokenKeyName, value);
   }
 
+  //signup
+  signup(args) {
+    return axios.post(this.jwtConfig.singupEndpoint, args);
+  }
+
+  //login
   login(args) {
     return axios.post(this.jwtConfig.loginEndpoint, args);
   }
 
-  singup(args) {
-    return axios.post(this.jwtConfig.singupEndpoint, args);
+  //add new category
+  addNewCategory(arg) {
+    return axios.post(this.jwtConfig.categoryEndpoint, arg);
   }
 
-  // logout() {
-  //   return axios.post(this.jwtConfig.logoutEndpoint, {
-  //     refreshToken: this.getRefreshToken(),
-  //   });
-  // }
+  //get all categories
+  getAllCategories() {
+    return axios.get(this.jwtConfig.categoryEndpoint);
+  }
 
-  // getAllEvents() {
-  //   return axios.get(this.jwtConfig.allEventsEndpoint);
-  // }
+  //update category
+  updateCategory(id, args) {
+    return axios.patch(`${this.jwtConfig.categoryEndpoint}/${id}`, args);
+  }
+
+  //delete category
+  deleteCategory(id) {
+    return axios.delete(`${this.jwtConfig.categoryEndpoint}/${id}`);
+  }
+
+  //add new car
+  addNewCar(arg) {
+    return axios.post(this.jwtConfig.carEndpoint, arg);
+  }
+
+  //get all cars
+  getAllCars() {
+    return axios.get(this.jwtConfig.carEndpoint);
+  }
+
+  //update car
+  updateCar(id, args) {
+    return axios.patch(`${this.jwtConfig.carEndpoint}/${id}`, args);
+  }
+
+  //delete car
+  deleteCar(id) {
+    return axios.delete(`${this.jwtConfig.carEndpoint}/${id}`);
+  }
 }
 
 const jwt = new JwtService();

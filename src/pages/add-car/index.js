@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Grid, TextField } from "@mui/material";
-import {CarSchema} from "../../validation"
+import { CarSchema } from "../../validation";
 import { Formik } from "formik";
 
 const initialValues = {
@@ -8,19 +8,22 @@ const initialValues = {
   registrationNumber: "",
   make: "",
   model: 0,
-  color: ""
-}
+  color: "",
+};
 
-const spanStyle = {color:"red"}
+const spanStyle = { color: "red" };
 
 function AddCar() {
-
-  const onSubmit = (values) => {}
+  const onSubmit = (values) => {};
 
   return (
     <React.Fragment>
-      <Formik initialValues={initialValues} validationSchema={CarSchema} onSubmit={onSubmit}>
-        {({values, errors, handleChange, handleSubmit, isValid}) => (
+      <Formik
+        initialValues={initialValues}
+        validationSchema={CarSchema}
+        onSubmit={onSubmit}
+      >
+        {({ values, errors, handleChange, handleSubmit, isValid }) => (
           <form onSubmit={handleSubmit}>
             <Grid container pt={5}>
               <Grid item xs={3} sm={3} mr={3}>
@@ -32,7 +35,9 @@ function AddCar() {
                   value={values.registrationNumber}
                   onChange={handleChange}
                 />
-                {errors.registrationNumber && <span style={spanStyle}>{errors.registrationNumber}</span>}
+                {errors.registrationNumber && (
+                  <span style={spanStyle}>{errors.registrationNumber}</span>
+                )}
               </Grid>
               <Grid item xs={3} sm={3} mr={3}>
                 <TextField

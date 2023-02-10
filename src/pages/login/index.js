@@ -15,7 +15,6 @@ function Login() {
   const { login } = useAppcContext();
 
   const onSubmit = (values) => {
-    console.log(values);
     login(values);
   };
 

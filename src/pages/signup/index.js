@@ -3,8 +3,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { SignupSchema } from "../../validation";
 import { Formik } from "formik";
-
 import "./styles.scss";
+import useAppContext from "../../context/useAppContext";
 
 const initialValues = {
   name: "",
@@ -12,8 +12,10 @@ const initialValues = {
 };
 
 function Signup() {
+  const { signup } = useAppContext();
+
   const onSubmit = (values) => {
-    console.log(values);
+    signup(values);
   };
 
   return (
