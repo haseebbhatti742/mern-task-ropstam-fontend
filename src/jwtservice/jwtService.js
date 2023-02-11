@@ -30,24 +30,37 @@ class JwtService {
     );
   }
 
-  addSubscriber(callback) {
-    this.subscribers.push(callback);
-  }
-
-  getToken() {
-    return localStorage.getItem(this.jwtConfig.storageTokenKeyName);
-  }
-
-  getRefreshToken() {
-    return localStorage.getItem(this.jwtConfig.storageRefreshTokenKeyName);
-  }
-
+  //setting token in local storage
   setToken(value) {
     localStorage.setItem(this.jwtConfig.storageTokenKeyName, value);
   }
 
-  setRefreshToken(value) {
-    localStorage.setItem(this.jwtConfig.storageRefreshTokenKeyName, value);
+  //getting token from local storage
+  getToken() {
+    return localStorage.getItem(this.jwtConfig.storageTokenKeyName);
+  }
+
+  //setting login state
+  setLogin(){
+    localStorage.setItem("isLogin", true)
+  }
+
+  //checking if login
+  isLogin() {
+    const token = localStorage.getItem("isLogin")
+    if (token && (token === true || token === "true"))
+      return true;
+    else return false;
+  }
+
+  //setting user to local storage
+  setUser(user){
+    localStorage.setItem("user", JSON.stringify(user))
+  }
+
+  //getting user from local storage
+  getUser(){
+    return JSON.parse(localStorage.getItem("user"))
   }
 
   //signup
@@ -58,6 +71,13 @@ class JwtService {
   //login
   login(args) {
     return axios.post(this.jwtConfig.loginEndpoint, args);
+  }
+
+  //logout function
+  logout (){
+    localStorage.setItem("isLogin", false);
+    this.setToken(null)
+    this.setUser(null)
   }
 
   //add new category

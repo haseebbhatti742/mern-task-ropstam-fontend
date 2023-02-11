@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import useAppContext from "../../context/useAppContext";
+import { Button, Grid } from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -16,12 +16,16 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal() {
-  const { modalTitle, modalMessage, openModal, setOpenModal } = useAppContext();
+export default function BasicModal({modalTitle, modalMessage, openModal, modalAction, setOpenModal}) {
+
   const handleClose = () => setOpenModal(false);
+  const handleOk = () => {
+    modalAction();
+    handleClose();
+  }
 
   return (
-    <div>
+    <>
       <Modal
         open={openModal}
         onClose={handleClose}
@@ -35,8 +39,30 @@ export default function BasicModal() {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {modalMessage}
           </Typography>
+          <Grid container mt={2} columns={12}>
+            <Grid item xs={12} sm={5.6} md={5.6} lg={5.6} mr={3}>
+              <Button
+                variant="outlined"
+                color="primary"
+                style={{width: "100%"}}
+                onClick={handleClose}
+              >
+                Close
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={5.6} md={5.6} lg={5.6}>
+            <Button
+                variant="contained"
+                color="success"
+                style={{width: "100%"}}
+                onClick={handleOk}
+              >
+                OK
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
       </Modal>
-    </div>
+    </>
   );
 }

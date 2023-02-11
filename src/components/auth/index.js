@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import jwt from "../../jwtservice/jwtService";
 
 function Auth({ children }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const isLogin = localStorage.getItem("isLogin");
-    if (isLogin && (isLogin === true || isLogin === "true")) {
+    if (jwt.isLogin()) {
       navigate("/dashboard");
     } else {
       pathname.includes("signup") ? navigate("/signup") : navigate("/");

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AddCategory from "./AddCategory";
+import CategoryRow from "./CategoryRow";
 
 //mui imports
 import Paper from "@mui/material/Paper";
@@ -11,33 +12,6 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import useAppContext from "../../context/useAppContext";
-import CategoryRow from "./CategoryRow";
-
-// const columns = [
-//   { id: "name", label: "Name", minWidth: 170 },
-//   { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
-//   {
-//     id: "population",
-//     label: "Population",
-//     minWidth: 170,
-//     align: "right",
-//     format: (value) => value.toLocaleString("en-US"),
-//   },
-//   {
-//     id: "size",
-//     label: "Size\u00a0(km\u00b2)",
-//     minWidth: 170,
-//     align: "right",
-//     format: (value) => value.toLocaleString("en-US"),
-//   },
-//   {
-//     id: "density",
-//     label: "Density",
-//     minWidth: 170,
-//     align: "right",
-//     format: (value) => value.toFixed(2),
-//   },
-// ];
 
 const columns = [
   { id: "name", label: "Name", minWidth: 170 },
@@ -63,6 +37,7 @@ function Categories() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
   return (
     <div>
       <AddCategory />
@@ -88,9 +63,9 @@ function Categories() {
               <TableBody>
                 {categories
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
+                  .map((row) => {
                     return (
-                      <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                      <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                         <CategoryRow columns={columns} row={row} />
                       </TableRow>
                     );

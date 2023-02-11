@@ -5,6 +5,7 @@ const Login = lazy(() => import("../pages/login"));
 const Signup = lazy(() => import("../pages/signup"));
 const Dashboard = lazy(() => import("../pages/dashboard"));
 const Categories = lazy(() => import("../pages/categories"));
+const EditCar = lazy(() => import("../pages/dashboard/EditCar"))
 
 const ROUTES = [
   {
@@ -31,14 +32,22 @@ const ROUTES = [
   },
   {
     key: 4,
-    path: "/add-car",
-    title: "Add Car",
+    path: "/register-car",
+    title: "Register Car",
     element: <AddCar/>,
     isProtected: true,
     isSideBar: true,
   },
   {
     key: 5,
+    path: "/edit-car",
+    title: "Edit Car",
+    element: <EditCar/>,
+    isProtected: true,
+    isSideBar: false,
+  },
+  {
+    key: 6,
     path: "/categories",
     title: "Categories",
     element: <Categories />,

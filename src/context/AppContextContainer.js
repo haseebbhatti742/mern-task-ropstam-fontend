@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import jwt from "../jwtservice/jwtService";
 import { AppContextProvider } from "./AppContext";
@@ -9,11 +9,7 @@ function AppContextContainer({ children }) {
   const [modalTitle, setModalTitle] = useState("");
   const [modalMessage, setModalMessage] = useState("");
   const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    getAllCategories();
-    // eslint-disable-next-line
-  }, []);
+  const [cars, setCars] = useState([]);
 
   //signup function
   const signup = (payload) => {
@@ -35,12 +31,9 @@ function AppContextContainer({ children }) {
       .login(payload)
       .then((response) => {
         if (response.status === 200) {
-          localStorage.setItem("isLogin", true);
-          localStorage.setItem(
-            "accessToken",
-            response.data.tokens.access.token
-          );
-          localStorage.setItem("user", response.data.user);
+          jwt.setLogin()
+          jwt.setUser(response.data.user)
+          jwt.setToken(response.data.tokens.access.token)
           navigate("/dashboard");
         }
       })
@@ -51,9 +44,7 @@ function AppContextContainer({ children }) {
 
   //logout function
   const logout = () => {
-    localStorage.setItem("isLogin", false);
-    localStorage.setItem("accessToken", null);
-    localStorage.setItem("user", null);
+    jwt.logout()
     navigate("/");
   };
 
@@ -86,7 +77,7 @@ function AppContextContainer({ children }) {
       });
   };
 
-  //delete caetgrory function
+  //update caetgrory function
   const updateCategory = (id, name) => {
     jwt
       .updateCategory(id, { name })
@@ -116,6 +107,65 @@ function AppContextContainer({ children }) {
       });
   };
 
+  //add car function
+  const addCar = (payload) => {
+    jwt
+      .addNewCar(payload)
+      .then((response) => {
+        if(response.status === 201) {
+          alert("Car Registered Successfully")
+          navigate("/dashboard")
+        }
+      })
+      .catch((error) => {
+        handleErrorResponse(error);
+      })
+  }
+
+  //get All cars function
+  const getAllCars = () => {
+    jwt
+      .getAllCars()
+      .then((response) => {
+        if (response.status === 200) {
+          setCars(response.data);
+        }
+      })
+      .catch((error) => {
+        handleErrorResponse(error);
+      });
+  };
+
+  //update caetgrory function
+  const updateCar = (id, payload) => {
+    jwt
+      .updateCar(id, payload)
+      .then((response) => {
+        if (response.status === 200) {
+          alert(response.data);
+          navigate("/dashboard")
+        }
+      })
+      .catch((error) => {
+        handleErrorResponse(error);
+      });
+  };
+
+  //delete car function
+  const deleteCar = (id) => {
+    jwt
+      .deleteCar(id)
+      .then((response) => {
+        if (response.status === 200) {
+          alert(response.data);
+          getAllCars();
+        }
+      })
+      .catch((error) => {
+        handleErrorResponse(error);
+      });
+  };
+
   const handleErrorResponse = (error) => {
     setModalTitle("Error");
     setModalMessage(error.response.data.message);
@@ -133,11 +183,18 @@ function AppContextContainer({ children }) {
     openModal,
     setOpenModal,
     modalTitle,
+    setModalTitle,
     modalMessage,
+    setModalMessage,
     getAllCategories,
     categories,
     deleteCategory,
     updateCategory,
+    addCar,
+    cars,
+    getAllCars,
+    updateCar,
+    deleteCar
   };
 
   return (

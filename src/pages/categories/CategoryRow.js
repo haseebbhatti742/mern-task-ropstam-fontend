@@ -5,11 +5,21 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import CheckIcon from "@mui/icons-material/CheckCircle";
 import { IconButton, TableCell, TextField } from "@mui/material";
 import useAppContext from "../../context/useAppContext";
+import BasicModal from "../../components/modal";
 
 function CategoryRow({ columns, row }) {
-  const { deleteCategory, updateCategory } = useAppContext();
+  const { 
+    deleteCategory, 
+    updateCategory, 
+    setModalTitle, 
+    setModalMessage,
+    modalTitle,
+    modalMessage
+  } = useAppContext();
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(row.name);
+  const [id] = useState(row.id);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
   const cancelEdit = () => {
     setIsEditing(false);
@@ -27,7 +37,7 @@ function CategoryRow({ columns, row }) {
       </TableCell>
       <TableCell align={columns[1].align}>
         {isEditing ? (
-          <div>
+          <>
             <IconButton
               aria-label="delete"
               size="large"
@@ -45,9 +55,9 @@ function CategoryRow({ columns, row }) {
             >
               <CancelIcon fontSize="inherit" color="error" />
             </IconButton>
-          </div>
+          </>
         ) : (
-          <div>
+          <>
             <IconButton
               aria-label="delete"
               size="large"
@@ -58,13 +68,24 @@ function CategoryRow({ columns, row }) {
             <IconButton
               aria-label="delete"
               size="large"
-              onClick={() => deleteCategory(row.id)}
+              onClick={() => {
+                setModalTitle("Warning");
+                setModalMessage("By deleting this category, All cars related to this will be deleted. Do You want to continue ?");
+                setOpenDeleteModal(true)
+              }}
             >
               <DeleteIcon fontSize="inherit" color="error" />
             </IconButton>
-          </div>
+          </>
         )}
       </TableCell>
+
+      <BasicModal 
+        modalTitle={modalTitle}
+        modalMessage={modalMessage}
+        openModal={openDeleteModal}
+        setOpenModal= {setOpenDeleteModal}
+        modalAction={() => deleteCategory(id)} />
     </>
   );
 }
